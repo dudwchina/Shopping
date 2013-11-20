@@ -77,4 +77,31 @@ public class Category {
 		CategoryDAO.delete(id,isLeaf);
 		CategoryDAO.isLeaf(pid);
 	}
+	
+	/**
+	 * <p>
+	 * Description: 通过类别id来获取类别相关信息
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-19 下午10:43:31
+	 */      
+	public static Category getCategoryById(int id){
+		Category c=CategoryDAO.getCategoryById(id);
+		return c;
+	}
+	
+	/**
+	 * <p>
+	 * Description: 通过类别id更新类别相关信息
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-19 下午10:43:50
+	 */      
+	public static void updateCategoryById(int id,String name,String descr){
+		CategoryDAO.updateCategoryById(id,name,descr);
+	}
 }

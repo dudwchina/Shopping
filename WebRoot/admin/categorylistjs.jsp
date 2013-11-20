@@ -21,8 +21,12 @@
 	-->
 
 		<script type="text/javascript">
-			function t(key,parentey){
+			function t(key,parentkey){
 				document.forms["form"].pid.value=key;
+				}
+			function modify(key,parentkey){
+<%--				alert('ok');--%>
+					window.parent.frames["detail"].location.href="categorymodify.jsp?id="+key;
 				}
 		</script>
 	</head>
@@ -41,6 +45,7 @@
     	%>
     	showTV();
     	addListener("click","t");
+    	addListener("dblclick","modify");
     
     </script>
 	

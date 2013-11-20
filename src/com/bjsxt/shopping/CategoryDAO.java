@@ -157,4 +157,62 @@ public class CategoryDAO {
 			DB.closeConn(conn);
 		}
 	}
+	
+	/**
+	 * <p>
+	 * Description: 通过类别id来获取类别相关信息
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-19 下午10:37:43
+	 */           
+     
+	public static Category getCategoryById(int id){
+		Connection conn=null;
+		ResultSet rs=null;
+		Category c=new Category();
+		try {
+			conn=DB.getConn();
+			String sql="select * from category where id="+id;
+			rs=DB.executeQuery(conn, sql);
+			
+			while(rs.next()){
+				c.setId(rs.getInt("id"));
+				c.setPid(rs.getInt("pid"));
+				c.setName(rs.getString("name"));
+				c.setDescr(rs.getString("descr"));
+				c.setLeaf(rs.getBoolean("isLeaf"));
+				c.setGrade(rs.getInt("grade"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DB.closeRs(rs);
+			DB.closeConn(conn);
+		}
+		return c;
+	}
+	
+	/**
+	 * <p>
+	 * Description: 通过类别id更新类别相关信息
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-19 下午10:38:25
+	 */      
+	public static void updateCategoryById(int id,String name,String descr){
+		Connection conn=null;
+		try {
+			conn=DB.getConn();
+			String sql="update category set name='"+name+"',descr='"+descr+"' where id="+id;
+			DB.executeUpdate(conn, sql);
+			
+		}finally{
+			DB.closeConn(conn);
+		}
+	}
+	
 }
