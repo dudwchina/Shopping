@@ -2,7 +2,9 @@ package com.bjsxt.shopping.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,12 +12,70 @@ import com.bjsxt.shopping.Product;
 import com.bjsxt.shopping.util.DB;
 
 public class ProductMySQLDAO implements ProductDAO{
+	
+	/**
+	 * <p>
+	 * Description: 通过数据库获取所有产品信息
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-22 下午10:41:46
+	 */      
 	public List<Product> getProducts() {
-		return null;
+		List<Product> list=new ArrayList<Product>();
+		Connection conn=DB.getConn();
+		ResultSet rs=null;
+		String sql="select * from product";
+		rs=DB.executeQuery(conn, sql);
+		try {
+			while(rs.next()){
+				Product p=new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setDescr(rs.getString("descr"));
+				p.setNormalPrice(rs.getDouble("normalprice"));
+				p.setMemberPrice(rs.getDouble("memberprice"));
+				p.setPdate(rs.getTimestamp("pdate"));
+				p.setCategoryId(rs.getInt("categoryid"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			DB.closeRs(rs);
+			DB.closeConn(conn);
+		}
+		return list;
 	}
 
 	public List<Product> getProducts(int pageNo, int pageSize) {
-		return null;
+		List<Product> list=new ArrayList<Product>();
+		Connection conn=DB.getConn();
+		ResultSet rs=null;
+		String sql="select * from product limit "+(pageNo-1)*pageSize+","+pageSize;
+		rs=DB.executeQuery(conn, sql);
+		try {
+			while(rs.next()){
+				Product p=new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setDescr(rs.getString("descr"));
+				p.setNormalPrice(rs.getDouble("normalprice"));
+				p.setMemberPrice(rs.getDouble("memberprice"));
+				p.setPdate(rs.getTimestamp("pdate"));
+				p.setCategoryId(rs.getInt("categoryid"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			DB.closeRs(rs);
+			DB.closeConn(conn);
+		}
+		return list;
 	}
 
 	public List<Product> findProducts(int[] categoryId, String name,
@@ -39,6 +99,15 @@ public class ProductMySQLDAO implements ProductDAO{
 		return false;
 	}
 	
+	/**
+	 * <p>
+	 * Description: 产品添加功能实现
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-22 下午09:34:16
+	 */      
 	public boolean addProduct(Product p){
 		Connection conn=DB.getConn();
 		String sql=null;
