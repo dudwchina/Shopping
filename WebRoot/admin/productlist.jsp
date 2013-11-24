@@ -13,7 +13,10 @@
 	if(pageNo<1) pageNo=1;
 %>
 <%
-	List<Product> products=ProductMgr.getInstance().getProducts(pageNo,PAGE_SIZE);//获取所有产品列表
+	List<Product> products=new ArrayList<Product>();
+	int pageCount=ProductMgr.getInstance().getProducts(products,pageNo,PAGE_SIZE);//获取所有产品列表
+
+	if(pageNo>pageCount) pageNo=pageCount;
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -66,8 +69,10 @@
     </table>
     <center>
     	第<%=pageNo %>页 |
+    	总<%=pageCount %>页 |
     	<a href="productlist.jsp?pageno=<%=pageNo-1 %>">上一页</a> |
-    	<a href="productlist.jsp?pageno=<%=pageNo+1 %>">下一页</a> 
+    	<a href="productlist.jsp?pageno=<%=pageNo+1 %>">下一页</a> |
+    	<a href="productlist.jsp?pageno=<%=pageCount %>">最后一页</a>
     </center>
   </body>
 </html>

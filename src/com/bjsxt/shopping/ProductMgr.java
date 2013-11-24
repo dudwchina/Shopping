@@ -31,12 +31,16 @@ public class ProductMgr {
 	public List<Product> getProducts(int pageNo, int pageSize) {
 		return dao.getProducts(pageNo, pageSize);
 	}
+	
+	public int getProducts(List<Product> products,int pageNo, int pageSize) {
+		return dao.getProducts(products,pageNo, pageSize);
+	}
 
-	public List<Product> findProducts(int[] categoryId, String name,
-			String descr, double lowNormalPrice, double highNormalPrice,
+	public int findProducts(List<Product> list,int[] categoryId, String keyWord,
+			 double lowNormalPrice, double highNormalPrice,
 			double lowMemberPrice, double highMemberPrice, Date startDate,
 			Date endDate, int pageNo, int pageSize) {
-		return null;
+		return dao.findProducts(list,categoryId, keyWord, lowNormalPrice, highNormalPrice, lowMemberPrice, highMemberPrice, startDate, endDate, pageNo, pageSize);
 
 	}
 

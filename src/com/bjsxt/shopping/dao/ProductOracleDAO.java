@@ -22,12 +22,12 @@ public class ProductOracleDAO implements ProductDAO {
 		return false;
 	}
 
-	public List<Product> findProducts(int[] categoryId, String name,
-			String descr, double lowNormalPrice, double highNormalPrice,
+	public int findProducts(List<Product> products,int[] categoryId, String keyWord,
+			 double lowNormalPrice, double highNormalPrice,
 			double lowMemberPrice, double highMemberPrice, Date startDate,
 			Date endDate, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	public List<Product> getProducts() {
@@ -43,6 +43,11 @@ public class ProductOracleDAO implements ProductDAO {
 	public boolean updateProduct(Product p) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public int getProducts(List<Product> products, int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
