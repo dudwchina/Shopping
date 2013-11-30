@@ -58,13 +58,16 @@ public class ProductMgr {
 	}
 	
 	public boolean updateProduct(Product p){
-		return false;
+		return dao.updateProduct(p);
 	}
 	
 	public boolean addProduct(Product p){
 		return dao.addProduct(p);
 	}
 
+	public Product loadById(int id){
+		return dao.loadById(id);
+	}
 	public ProductDAO getDao() {
 		return dao;
 	}

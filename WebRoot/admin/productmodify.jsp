@@ -5,38 +5,40 @@
 
 <%
 	request.setCharacterEncoding("GBK");
+	int id=Integer.parseInt(request.getParameter("id"));
 	String strCategoryId=request.getParameter("categoryid");
 	int categoryId=0;
 	if(strCategoryId!=null && !strCategoryId.trim().equals("")){
 		categoryId=Integer.parseInt(strCategoryId);
 	}
-		
+	
+	Product p=ProductMgr.getInstance().loadById(id);
 	
 	String action=request.getParameter("action");
-	if(action!=null && action.trim().equals("add")){
+	if(action!=null && action.trim().equals("modify")){
 		String name=request.getParameter("name");
 		String descr=request.getParameter("descr");
 		double normalPrice=Double.parseDouble(request.getParameter("normalprice"));
 		double memberPrice=Double.parseDouble(request.getParameter("memberprice"));
 		
 		
-		Category c=Category.getCategoryById(categoryId);
-		if(!c.isLeaf()){
-			out.println("非叶子节点不能添加商品");
-			return;
-		}
 		
-		Product p=new Product();
-		p.setId(-1);
+		
+		//Product p=new Product();
+		p.setId(id);
 		p.setName(name);
 		p.setDescr(descr);
 		p.setNormalPrice(normalPrice);
 		p.setMemberPrice(memberPrice);
-		p.setPdate(new Timestamp(System.currentTimeMillis()));
 		p.setCategoryId(categoryId);
+		ProductMgr.getInstance().updateProduct(p);
+		%>
+		<script type="text/javascript">
+			window.parent.main.location.reload();//刷新上个页面
+		</script>"
+		<%
+		out.println("产品类别修改成功！");
 		
-		ProductMgr.getInstance().addProduct(p);
-		out.println("产品类别添加成功！");
 		//response.sendRedirect("categorylist.jsp");
 		return;
 		
@@ -46,7 +48,7 @@
 <html>
   <head>
     
-    <title>类别添加</title>
+    <title>类别修改</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -73,9 +75,9 @@
   </head>
   
   <body>
-  	<center>添加产品类别</center>
-	<form action="productadd.jsp" method="post" onsubmit="return checkdata()" name="form">
-	<input type="hidden" name="action" value="add" />
+  	<center>产品修改</center>
+	<form action="productmodify.jsp?id=<%=id %>" method="post" onsubmit="return checkdata()" name="form">
+	<input type="hidden" name="action" value="modify" />
 	<table><%--
 		<tr>
 			<td>id：</td>
@@ -83,19 +85,19 @@
 		</tr>
 		--%><tr>
 			<td>name：</td>
-			<td><input type="text" name="name"></td>
+			<td><input type="text" name="name" value="<%=p.getName() %>"></td>
 		</tr>
 		<tr>
 			<td>descr：</td>
-			<td><textarea name="descr" rows="3" cols="40"></textarea></td>
+			<td><textarea name="descr" rows="3" cols="40"><%=p.getDescr() %></textarea></td>
 		</tr>
 		<tr>
 			<td>normalprice：</td>
-			<td><input type="text" name="normalprice"></td>
+			<td><input type="text" name="normalprice" value="<%=p.getNormalPrice() %>"></td>
 		</tr>
 		<tr>
 			<td>memberprice：</td>
-			<td><input type="text" name="memberprice"></td>
+			<td><input type="text" name="memberprice" value="<%=p.getMemberPrice() %>"></td>
 		</tr>
 		<tr>
 			<td>categoryId：</td>

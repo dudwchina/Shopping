@@ -58,10 +58,10 @@
     		<td><%=p.getNormalPrice() %></td>
     		<td><%=p.getMemberPrice() %></td>
     		<td><%=p.getPdate() %></td>
-    		<td><%=p.getCategoryId() %></td>
+    		<td><%=Category.getCategoryById(p.getCategoryId()).getName() %></td>
     		<td><a href="productdelete.jsp?id=<%=p.getId() %>" target="detail">É¾³ý</a>
     		|
-    		<a href="productmodify.jsp?id=<%=p.getId() %>" target="detail">ÐÞ¸Ä</a></td>
+    		<a href="productmodify.jsp?id=<%=p.getId() %>&categoryid=<%=p.getCategoryId() %>" target="detail">ÐÞ¸Ä</a></td>
     	</tr>
     	<%
     	}

@@ -50,4 +50,9 @@ public class ProductOracleDAO implements ProductDAO {
 		return 0;
 	}
 
+	public Product loadById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

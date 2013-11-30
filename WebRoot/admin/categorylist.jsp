@@ -46,6 +46,9 @@
     		<td><%=c.isLeaf() %></td>
     		<td><%=c.getGrade() %></td>
     		<td><a href="categoryadd.jsp?pid=<%=c.getId() %>">添加子类别</a></td>
+    		<%if(c.isLeaf()){ %>
+    		<td><a href="productadd.jsp?categoryid=<%=c.getId() %>">在该类别下添加商品</a></td>
+    		<%} %>
     		<td><a href="categorydelete.jsp?id=<%=c.getId() %>&pid=<%=c.getPid() %>&isLeaf=<%=c.isLeaf() %>">删除</a></td>
     	</tr>
     	<%

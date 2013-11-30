@@ -7,7 +7,23 @@
 	public static final int PAGE_SIZE=3;
 %>
 <%
+	request.setCharacterEncoding("GBK");
+	String action=request.getParameter("action");
 	List<Category> categories=Category.getCategories();
+	List<Product> products=new ArrayList<Product>();
+	String keyWord=null;
+	double lowNormalPrice=-1;
+	double highNormalPrice=-1;
+	double lowMemberPrice=-1;
+	double highMemberPrice=-1;
+	Timestamp startDate=null;
+	Timestamp endDate=null;
+	String strStartDate=null;
+	String strEndDate=null;
+	
+	int categoryId=0;
+	int pageCount=0;
+	String strProductQuery="";
 %>
 <%
 	String strPageNo=request.getParameter("pageno");
@@ -17,16 +33,16 @@
 	}
 	if(pageNo<1) pageNo=1;
 %>
+<!-- 复杂查询结果处理开始 -->
 <%
-	request.setCharacterEncoding("GBK");
-	String action=request.getParameter("action");
+	
 	if(action!=null && action.trim().equals("complexsearch")){
-		String keyWord=request.getParameter("keyword");
-		double lowNormalPrice=Double.parseDouble(request.getParameter("lownormalprice"));
-		double highNormalPrice=Double.parseDouble(request.getParameter("highnormalprice"));
-		double lowMemberPrice=Double.parseDouble(request.getParameter("lowmemberprice"));
-		double highMemberPrice=Double.parseDouble(request.getParameter("highmemberprice"));
-		int categoryId=Integer.parseInt(request.getParameter("categoryid"));
+		 keyWord=request.getParameter("keyword");
+		 lowNormalPrice=Double.parseDouble(request.getParameter("lownormalprice"));
+		 highNormalPrice=Double.parseDouble(request.getParameter("highnormalprice"));
+		 lowMemberPrice=Double.parseDouble(request.getParameter("lowmemberprice"));
+		 highMemberPrice=Double.parseDouble(request.getParameter("highmemberprice"));
+		 categoryId=Integer.parseInt(request.getParameter("categoryid"));
 		
 		int[] idArray;
 		if(categoryId == 0){
@@ -36,25 +52,61 @@
 			idArray[0]=categoryId;
 		}
 		
-		Timestamp startDate;
-		String strStartDate=request.getParameter("startdate");
+		
+		 strStartDate=request.getParameter("startdate");
 		if(strStartDate==null || strStartDate.trim().equals("")){
 			startDate=null;
 		}else{
 			startDate=Timestamp.valueOf(request.getParameter("startdate"));}
-		Timestamp endDate;
-		String strEndDate=request.getParameter("enddate");
+		
+		 strEndDate=request.getParameter("enddate");
 		if(strEndDate==null || strEndDate.trim().equals("")){
 			endDate=null;
 		}else{
 			endDate=Timestamp.valueOf(request.getParameter("enddate"));}	
 		
-		List<Product> products=new ArrayList<Product>();
+		//List<Product> products=new ArrayList<Product>();
 		
-		int pageCount=ProductMgr.getInstance().findProducts(products,idArray,keyWord,lowNormalPrice,highNormalPrice,
+		 pageCount=ProductMgr.getInstance().findProducts(products,idArray,keyWord,lowNormalPrice,highNormalPrice,
 																	lowMemberPrice,highMemberPrice,startDate,endDate,pageNo,PAGE_SIZE);
 		
-		%>
+	}
+%>
+<!-- 复杂查询处理结束 -->
+
+<!-- 简单查询处理开始 -->
+<%
+	
+	if(action!=null && action.trim().equals("simplesearch2")){
+		 String[] strCategoryIds=request.getParameterValues("categoryid");
+		 keyWord=request.getParameter("keyword");
+		 //categoryId=Integer.parseInt(request.getParameter("categoryid"));
+		
+		int[] idArray;
+		if(strCategoryIds == null || strCategoryIds.length==0){
+			idArray=null;
+		}else{
+			
+			for(int i=0;i<strCategoryIds.length;i++){
+				strProductQuery+="&categoryid="+strCategoryIds[i];
+			}
+			//System.out.println(strProductQuery);
+			idArray=new int[strCategoryIds.length];
+			for(int i=0;i<strCategoryIds.length;i++){
+				idArray[i]=Integer.parseInt(strCategoryIds[i]);
+			}
+			
+		}
+		
+		
+		
+		
+		 pageCount=ProductMgr.getInstance().findProducts(products,idArray,keyWord,-1,-1,
+																	-1,-1,null,null,pageNo,PAGE_SIZE);
+		
+	}
+%>
+<!-- 简单查询处理结束 -->
 		<center>搜索结果</center>
 		<table border="1" align="center">
     	<tr>
@@ -87,16 +139,27 @@
     	}
     	%>
     </table>
-    <center>
-    	共<%=pageCount %>页|
-    	<a href="productsearch.jsp?action=<%=action %>&keyword=<%=keyWord %>&lownormalprice=<%=lowNormalPrice %>&highnormalprice=<%=highNormalPrice %>&lowmemberprice=<%=lowMemberPrice %>&highmemberprice=<%=highMemberPrice %>&categoryid=<%=categoryId %>&pageno=<%=pageNo-1 %>">上一页</a> |
-    	<a href="productsearch.jsp?action=<%=action %>&keyword=<%=keyWord %>&lownormalprice=<%=lowNormalPrice %>&highnormalprice=<%=highNormalPrice %>&lowmemberprice=<%=lowMemberPrice %>&highmemberprice=<%=highMemberPrice %>&categoryid=<%=categoryId %>&pageno=<%=pageNo+1 %>">下一页</a> 
-    </center>
-	<%
-	return;
-		
-	}
-%>
+    <%
+    	if(action!=null && action.trim().equals("complexsearch")){
+    		%> 
+    		<center>
+    	    	共<%=pageCount %>页|
+    	    	<a href="productsearch.jsp?action=<%=action %>&keyword=<%=keyWord %>&lownormalprice=<%=lowNormalPrice %>&highnormalprice=<%=highNormalPrice %>&lowmemberprice=<%=lowMemberPrice %>&highmemberprice=<%=highMemberPrice %>&categoryid=<%=categoryId %>&pageno=<%=pageNo-1 %>">上一页</a> |
+    	    	<a href="productsearch.jsp?action=<%=action %>&keyword=<%=keyWord %>&lownormalprice=<%=lowNormalPrice %>&highnormalprice=<%=highNormalPrice %>&lowmemberprice=<%=lowMemberPrice %>&highmemberprice=<%=highMemberPrice %>&categoryid=<%=categoryId %>&pageno=<%=pageNo+1 %>">下一页</a> 
+    	    </center>
+    	    <%
+    	}else {
+    		%>
+    		<center>
+    	    	共<%=pageCount %>页|
+    	    	<a href="productsearch.jsp?action=<%=action %>&keyword=<%=keyWord %><%=strProductQuery %>&pageno=<%=pageNo-1 %>">上一页</a> |
+    	    	<a href="productsearch.jsp?action=<%=action %>&keyword=<%=keyWord %><%=strProductQuery %>&pageno=<%=pageNo+1 %>">下一页</a> 
+    	    </center>
+    		<%
+    	}
+    %>
+   
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -135,9 +198,31 @@
   
   <body>
   	<center>简单搜索</center>
-  	<form action="productserach.jsp" method="post">
+  	<form action="productsearch.jsp" method="post">
   		<input type="hidden" name="action" value="simplesearch"/>
   		category：<select></select>
+  		keyword：<input type="text" name="keyword"/>
+  		<input type="submit" value="搜"/>
+  	</form>
+  	
+  	<center>简单搜索2</center>
+  	<form action="productsearch.jsp" method="post">
+  		<input type="hidden" name="action" value="simplesearch2"/>
+  		category：<br>
+  		<%
+  			for(Iterator<Category> it=categories.iterator();it.hasNext();){
+  				Category c=it.next();
+  				if(c.isLeaf()){
+  					%>
+  					<input type="checkbox" name="categoryid" value="<%=c.getId() %>"><%=c.getName() %><br>
+  					<%
+  				}else {
+  					%>
+  					<%=c.getName() %><br>
+  					<%
+  				}
+  			}
+  		%>
   		keyword：<input type="text" name="keyword"/>
   		<input type="submit" value="搜"/>
   	</form>

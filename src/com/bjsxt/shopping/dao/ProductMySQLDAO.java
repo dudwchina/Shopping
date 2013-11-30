@@ -185,8 +185,43 @@ public class ProductMySQLDAO implements ProductDAO{
 		return false;
 	}
 	
+	/**
+	 * <p>
+	 * Description: 产品信息更新
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-30 下午01:35:19
+	 */      
 	public boolean updateProduct(Product p){
-		return false;
+		Connection conn=null;
+		try {
+			conn=DB.getConn();
+			/*
+			String sql="update product set name='"+p.getName()+"',descr='"+p.getDescr()
+						+"',normalprice='"+p.getNormalPrice()+"',memberprice='"+p.getMemberPrice()
+						+"',categoryid='"+p.getCategoryId()+"' where id="+p.getId();
+			
+			DB.executeUpdate(conn, sql);*/
+			String sql="update product set name=?,descr=?,normalprice=?,memberprice=?,categoryid=? where id=?";
+			PreparedStatement pstmt=DB.getPStmt(conn, sql);
+			pstmt.setString(1, p.getName());
+			pstmt.setString(2, p.getDescr());
+			pstmt.setDouble(3, p.getNormalPrice());
+			pstmt.setDouble(4, p.getMemberPrice());
+			pstmt.setInt(5, p.getCategoryId());
+			pstmt.setInt(6, p.getId());
+			pstmt.executeUpdate();
+			System.out.println(sql);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			DB.closeConn(conn);
+		}
+		return true;
 	}
 	
 	/**
@@ -258,4 +293,43 @@ public class ProductMySQLDAO implements ProductDAO{
 		}
 		return pageCount;
 	}
+	
+	/**
+	 * <p>
+	 * Description: 通过产品id获取产品信息，返回一个Product对象
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-11-30 下午01:18:34
+	 */      
+	public Product loadById(int id) {
+
+		Product p=null;
+		Connection conn=DB.getConn();
+		ResultSet rs=null;
+		String sql="select * from product where id="+id;
+		rs=DB.executeQuery(conn, sql);
+		try {
+			if(rs.next()){
+				p=new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setDescr(rs.getString("descr"));
+				p.setNormalPrice(rs.getDouble("normalprice"));
+				p.setMemberPrice(rs.getDouble("memberprice"));
+				p.setPdate(rs.getTimestamp("pdate"));
+				p.setCategoryId(rs.getInt("categoryid"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			DB.closeRs(rs);
+			DB.closeConn(conn);
+		}
+		return p;
+	}
+	
+	
 }
