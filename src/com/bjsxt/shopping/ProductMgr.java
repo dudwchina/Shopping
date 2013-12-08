@@ -75,4 +75,12 @@ public class ProductMgr {
 	public void setDao(ProductDAO dao) {
 		this.dao = dao;
 	}
+
+	public List<Product> getLatestProducts(int count){
+		return dao.getLatestProducts(count);
+	}
+	
+	public List<Product> getRecommendProducts(int categoryId){
+		return dao.getRecommendProducts(categoryId);
+	}
 }

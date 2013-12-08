@@ -1,0 +1,56 @@
+<!--#include file="../conn_xp/xp.asp"-->
+<!--#include file="../conn_xp/shopxp.asp"-->
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=gbk"><link href="user_data/css.css" rel="stylesheet" type="text/css">
+</head><body>&lt;%if request.Cookies("shopxp")("username")="" then%&gt;
+              <table align="center" border="0" cellpadding="5" cellspacing="0" width="184">
+                <form action="../usershopxp/checkusershopxplogin.asp" method="post" name="fkinfo" id="fkinfo"></form>
+                  <tbody><tr>
+                    <td align="right" width="24%">账号</td>
+                    <td width="44%"><input name="username" class="wenbenkuang" id="username2" maxlength="25" size="10" type="text"></td>
+                    <td rowspan="2" width="32%"><input name="imageField" src="user_data/btn_login.gif" onfocus="this.blur()" type="image">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" width="24%">密码</td>
+                    <td width="44%"><input name="userpassword" class="wenbenkuang" id="userpassword2" maxlength="25" size="10" type="password">
+                        <input class="wenbenkuang" name="linkaddress" value="&lt;%=request.servervariables(" http_referer")%="" type="hidden">" /&gt;
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right" width="24%">验证</td>
+                    <td colspan="2"><input class="wenbenkuang" name="verifycode" value="&lt;%If GetCode=9999 Then Response.Write " 9999"%="" type="text">" maxlength="4" size="10" /&gt;
+                        <img src="user_data/GetshopxpCode.txt"> </td>
+                  </tr>
+                  <tr align="center">
+                    <td colspan="3"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tbody><tr>
+                          <td><a href="#" onclick="javascript:window.parent.location.href='../xpreg.asp'"><img src="user_data/btn_regis.gif" border="0" height="20" width="74"></a></td>
+                          <td><a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/usershopxp/getpwd.asp" target="_blank"><img src="user_data/btn_idpw.gif" border="0" height="20" width="74"></a></td>
+                        </tr>
+                    </tbody></table></td>
+                  </tr>
+                
+              </tbody></table>
+          &lt;%else%&gt;
+		  <table align="center" border="0" cellpadding="5" cellspacing="0" width="184">
+<tbody><tr>
+  <td align="center" height="130">&lt;%
+set rs=server.createobject("adodb.recordset")
+rs.open "select jifen,yucun,reglx,vipdate from [dv_user] where 
+username='"&amp;request.Cookies("shopxp")("username")&amp;"'",conn,1,3
+if rs("vipdate")&lt;&gt;"" then 
+'看是不是过期VIP
+if rs("vipdate")<date and="" rs("reglx")="2" then="" rs.update="" end="" if="" response.cookies("shopxp")("yucun")="rs(&quot;yucun&quot;)" response.cookies("shopxp")("jifen")="rs(&quot;jifen&quot;)" response.cookies("shopxp")("reglx=")=rs(" reglx")="" rs.close="" set="" rs="nothing" response.write="" "></date><a="" href="#" onclick="" javascript:window.parent.location.href="../xpuser.asp" ""=""><font color="red">亲爱的顾客，您现在已经登陆</font><br><br> "
+if request.Cookies("shopxp")("reglx")=2 then
+response.write "<font color="red">"&amp;request.Cookies("shopxp")("username")&amp;" </font>贵宾您好<br><br>您目前有"&amp;request.Cookies("shopxp")("jifen")&amp;"积分,预存款"&amp;request.Cookies("shopxp")("yucun")&amp;"元 "
+else
+response.write "<font color="red">"&amp;request.Cookies("shopxp")("username")&amp;" </font>您好<br><br>您目前有"&amp;request.Cookies("shopxp")("jifen")&amp;"积分<br><br>预存款"&amp;request.Cookies("shopxp")("yucun")&amp;"元 "
+end if
+response.write "<br><br><a href="#" onclick="" javascript:window.parent.location.href="../xpuser.asp" ""="">会员中心</a> "
+response.write " <a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/xplogout.asp">注销退出</a>"
+%&gt;</date></td>
+</tr>
+</tbody></table>
+              &lt;%end if%&gt;
+</body></html>

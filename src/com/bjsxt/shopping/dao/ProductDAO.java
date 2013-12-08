@@ -33,4 +33,8 @@ public interface ProductDAO {
 	public int getProducts(List<Product> products, int pageNo, int pageSize);
 	
 	public Product loadById(int id);
+	
+	public List<Product> getLatestProducts(int count);
+	
+	public List<Product> getRecommendProducts(int categoryId);
 }

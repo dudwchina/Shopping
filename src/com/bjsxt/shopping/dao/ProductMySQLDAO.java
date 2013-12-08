@@ -213,7 +213,7 @@ public class ProductMySQLDAO implements ProductDAO{
 			pstmt.setInt(5, p.getCategoryId());
 			pstmt.setInt(6, p.getId());
 			pstmt.executeUpdate();
-			System.out.println(sql);
+			//System.out.println(sql);
 		}catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -329,6 +329,80 @@ public class ProductMySQLDAO implements ProductDAO{
 			DB.closeConn(conn);
 		}
 		return p;
+	}
+
+	/**
+	 * <p>
+	 * Description: 获取最新上架产品信息
+	 * </p>
+	 * 
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-12-8 上午10:57:19
+	 */      
+	public List<Product> getLatestProducts(int count) {
+		List<Product> list=new ArrayList<Product>();
+		Connection conn=DB.getConn();
+		ResultSet rs=null;
+		String sql="select * from product order by pdate desc limit 0,"+count;
+		rs=DB.executeQuery(conn, sql);
+		try {
+			while(rs.next()){
+				Product p=new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setDescr(rs.getString("descr"));
+				p.setNormalPrice(rs.getDouble("normalprice"));
+				p.setMemberPrice(rs.getDouble("memberprice"));
+				p.setPdate(rs.getTimestamp("pdate"));
+				p.setCategoryId(rs.getInt("categoryid"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			DB.closeRs(rs);
+			DB.closeConn(conn);
+		}
+		return list;
+	}
+
+	/**
+	 * <p>
+	 * Description: 获取推荐商品信息
+	 * </p>
+	 * @param categoryId 推荐商品类别编号
+	 * @author Administrator
+	 * @version 1.0
+	 * @created 2013-12-8 上午11:18:30
+	 */      
+	public List<Product> getRecommendProducts(int categoryId) {
+		List<Product> list=new ArrayList<Product>();
+		Connection conn=DB.getConn();
+		ResultSet rs=null;
+		String sql="select * from product where categoryid="+categoryId;
+		rs=DB.executeQuery(conn, sql);
+		try {
+			while(rs.next()){
+				Product p=new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setDescr(rs.getString("descr"));
+				p.setNormalPrice(rs.getDouble("normalprice"));
+				p.setMemberPrice(rs.getDouble("memberprice"));
+				p.setPdate(rs.getTimestamp("pdate"));
+				p.setCategoryId(rs.getInt("categoryid"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			DB.closeRs(rs);
+			DB.closeConn(conn);
+		}
+		return list;
 	}
 	
 	

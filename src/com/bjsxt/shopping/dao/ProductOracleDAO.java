@@ -55,4 +55,14 @@ public class ProductOracleDAO implements ProductDAO {
 		return null;
 	}
 
+	public List<Product> getLatestProducts(int count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Product> getRecommendProducts(int categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
