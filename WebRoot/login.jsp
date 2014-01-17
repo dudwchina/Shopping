@@ -23,11 +23,12 @@
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<html lang="zh-CN">
   <head>
     
     <title>用户登录</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -36,25 +37,24 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+	<link rel="stylesheet" href="script/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="script/bootstrap/css/signin.css" >
   </head>
   
   <body>
-  <form action="login.jsp" method="post">
+  <div class="container">
+  <form action="login.jsp" method="post" class="form-signin" role="form">
   		<input type="hidden" name="action" value="login"/>
-  		<table border="1" align="center">
-  		<tr>
-		<td>用户名:</td>
-		<td><input type="text"  name="username"/></td>
-	</tr>
-	<tr>
-		<td>密码:</td>
-		<td><input type="password"  name="password" /></td>
-	</tr>
-	<tr>
-		<td><input type="submit" value="登录"/></td><td><input type="reset" value="重置"/></td>
-	</tr>
-  		</table>
+  		<h2 class="form-signin-heading">请登录</h2>
+  		<input type="text"  name="username" class="form-control" placeholder="Username" required autofocus/>
+	
+		<input type="password"  name="password" class="form-control" placeholder="Password" required/>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
   	</form>
+  	 </div>
+  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="script/bootstrap/js/bootstrap.js"></script>
   </body>
 </html>

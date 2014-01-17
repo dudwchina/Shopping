@@ -345,14 +345,19 @@ function url()
                 	<div align="center">
                 	<table align="center" bgcolor="#e1e1e1" border="0" cellpadding="2" cellspacing="1" height="90" width="90">
                     	<tbody>
-                        <tr><td align="center" bgcolor="#ffffff" height="90" width="90"><a href="#" target="_blank"><img src="images/20104116274086520.jpg" alt="<%=p.getName() %>" border="0" height="98" width="98"></a></td>
+                        <tr><td align="center" bgcolor="#ffffff" height="90" width="90">
+                       		 <a href="productdetailshow.jsp?id=<%=p.getId() %>">
+                        	 <img src="images/20104116274086520.jpg" alt="<%=p.getName() %>" border="0" height="98" width="98"></a>
+                        	</td>
                         </tr>
                         </tbody>
                      </table>
                      </div>
               </td>
           </tr>
-          <tr><td height="23" valign="middle"><div align="center"><a href="#" target="_blank"><font color="#FF0000"><%=p.getName() %></font></a></div></td></tr>
+          <tr><td height="23" valign="middle"><div align="center">
+          		<a href="productdetailshow.jsp?id=<%=p.getId() %>" ><font color="#FF0000"><%=p.getName() %></font></a>
+          		</div></td></tr>
           <tr><td height="13" valign="bottom">
           		<table border="0" cellpadding="0" cellspacing="0" width="98%">
                 	<tbody>
@@ -418,12 +423,13 @@ function url()
         	<div align="center">
         		<table align="center" bgcolor="#e1e1e1" border="0" cellpadding="2" cellspacing="1" height="90" width="90">
                 <tbody>
-                <tr><td align="center" bgcolor="#ffffff" height="90" width="90"><a href="#" target="_blank"><img src="images/20058291175330086.gif" alt="<%=p.getName() %>" border="0" height="98" width="98"></a></td></tr>
+                <tr><td align="center" bgcolor="#ffffff" height="90" width="90">
+                <a href="productdetailshow.jsp?id=<%=p.getId() %>"><img src="images/20058291175330086.gif" alt="<%=p.getName() %>" border="0" height="98" width="98"></a></td></tr>
                 </tbody>
                 </table>
              </div>
             </td></tr>
-           <tr> <td height="23" valign="middle"><div align="center"><a href="#" target="_blank"><font color="#FF0000"><%=p.getName() %></font></a></div></td></tr>
+           <tr> <td height="23" valign="middle"><div align="center"><a href="productdetailshow.jsp?id=<%=p.getId() %>"><font color="#FF0000"><%=p.getName() %></font></a></div></td></tr>
            <tr><td height="13" valign="bottom">
            	<table border="0" cellpadding="0" cellspacing="0" width="98%">
             	<tbody><tr><td height="37"><div align="center"> <font color="#999999"><s>市场价：<%=p.getNormalPrice() %> 元</s></font>
