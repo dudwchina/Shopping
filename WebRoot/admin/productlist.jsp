@@ -61,7 +61,10 @@
     		<td><%=Category.getCategoryById(p.getCategoryId()).getName() %></td>
     		<td><a href="productdelete.jsp?id=<%=p.getId() %>" target="detail">删除</a>
     		|
-    		<a href="productmodify.jsp?id=<%=p.getId() %>&categoryid=<%=p.getCategoryId() %>" target="detail">修改</a></td>
+    		<a href="productmodify.jsp?id=<%=p.getId() %>&categoryid=<%=p.getCategoryId() %>" target="detail">修改</a>
+    		|
+    		<a href="productimageupload.jsp?id=<%=p.getId() %>" target="detail">图片上传</a>
+    		</td>
     	</tr>
     	<%
     	}

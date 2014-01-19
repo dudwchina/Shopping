@@ -148,4 +148,21 @@ public class User {
 		
 	}
 	
+	
+	public static boolean userExist(String id) throws SQLException {
+		Connection conn=DB.getConn();
+		String sql="select * from user where username='"+id+"'";
+		ResultSet rs=DB.executeQuery(conn, sql);
+		try {
+			if(rs.next())
+				return false;
+			else 
+				return true;
+			
+		}finally{
+			DB.closeConn(conn);
+			DB.closeRs(rs);
+		}
+	}
 }
+

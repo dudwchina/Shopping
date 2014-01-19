@@ -347,7 +347,7 @@ function url()
                     	<tbody>
                         <tr><td align="center" bgcolor="#ffffff" height="90" width="90">
                        		 <a href="productdetailshow.jsp?id=<%=p.getId() %>">
-                        	 <img src="images/20104116274086520.jpg" alt="<%=p.getName() %>" border="0" height="98" width="98"></a>
+                        	 <img src="images/product/<%=p.getId() %>.jpg" alt="<%=p.getName() %>" border="0" height="98" width="98"></a>
                         	</td>
                         </tr>
                         </tbody>
@@ -424,7 +424,7 @@ function url()
         		<table align="center" bgcolor="#e1e1e1" border="0" cellpadding="2" cellspacing="1" height="90" width="90">
                 <tbody>
                 <tr><td align="center" bgcolor="#ffffff" height="90" width="90">
-                <a href="productdetailshow.jsp?id=<%=p.getId() %>"><img src="images/20058291175330086.gif" alt="<%=p.getName() %>" border="0" height="98" width="98"></a></td></tr>
+                <a href="productdetailshow.jsp?id=<%=p.getId() %>"><img src="images/product/<%=p.getId() %>.jpg" alt="<%=p.getName() %>" border="0" height="98" width="98"></a></td></tr>
                 </tbody>
                 </table>
              </div>
