@@ -3,23 +3,76 @@
 
 <%!
 	public static final int COUNT=10;//获取最新商品数
-	public static final int CATEGORY_ID=2;//推荐商品ID
+	public static final int CATEGORY_ID=4;//推荐商品ID
+	
+	private String getSecondCategoryStr(List<Category> categories,Category topCategory){
+		StringBuffer buf=new StringBuffer();
+		int childCount=1;
+		for(int i=0;i<categories.size();i++){
+			Category c=categories.get(i);
+			if(c.getPid()==topCategory.getId()){
+				buf.append("document.categories.category2.options["+childCount+"].text= '"+c.getName()+"';\n");
+				buf.append("document.categories.category2.options["+childCount+"].value= '"+c.getId()+"';\n");
+				childCount++;
+			}
+		}
+		buf.insert(0,"document.categories.category2.options[0].text='查询二级目录';\n");
+		buf.insert(0,"document.categories.category2.options[0].value='-1';\n");
+		buf.insert(0,"document.categories.category2.selectedIndex=0;\n");
+		buf.insert(0,"document.categories.category2.length="+childCount+";\n");
+		buf.insert(0,"if(document.categories.category1.options[document.categories.category1.selectedIndex].value=="+topCategory.getId()+"){\n");
+		buf.append("}\n");
+		
+		return buf.toString();
+	}
 %>
 
 <%
 	List<Product> latestProducts=ProductMgr.getInstance().getLatestProducts(COUNT);
 	List<Product> recommendProducts=ProductMgr.getInstance().getRecommendProducts(CATEGORY_ID);
+	
+	List<Category> categories=Category.getCategories();
+	List<Category> topCategories=new ArrayList<Category>();
+	
+	String str="";
+	
+	for(int i=0;i<categories.size();i++){
+		Category c=categories.get(i);
+		//System.out.println(i+" "+c.getPid());
+		if(c.getPid() == 0){
+			topCategories.add(c);
+			str+=getSecondCategoryStr(categories,c);
+			//System.out.println(str);
+		}
+		
+	}
+
 %>
 
 <html><head><title>ShopXp购物商城--首页</title>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk">
 <link href="images/css.css" rel="stylesheet" type="text/css">
-<script language="javascript">
-function url()
-{
 
-}
-</script>
+		<script language="javascript">
+			function changeCategory()
+			{
+				//alert();
+				//document.categories.category1.selectedIndex==1
+				/*
+				if(document.categories.category1.selectedIndex==1){
+					
+					document.categories.category2.length=2;
+
+					document.categories.category2.selectedIndex=0;
+					document.categories.category2.options[0].text="查询二级目录";
+					document.categories.category2.options[0].value="-1";
+					document.categories.category2.options[1].text="1100";
+					document.categories.category2.options[1].value="1100";
+					
+					}*/
+				<%=str%>
+			}
+		</script>
 </head>
 <body leftmargin="0" topmargin="0" onLoad="url()" marginheight="0" marginwidth="0">
 <table align="center" border="0" cellpadding="0" cellspacing="0" height="66" width="985">
@@ -27,12 +80,12 @@ function url()
     <td rowspan="2" width="21%"><img src="images/logo.gif" alt="$weburl$" border="0"></td>
     <td colspan="2" height="33"><table align="center" border="0" cellpadding="0" cellspacing="0" height="25" width="630">
       <tbody><tr>
-        <td width="72"><a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/index.html"><img src="images/shouye.gif" border="0" height="23" width="50"></a></td>
-        <td width="104"><a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/xpbuy.asp?action=show"><img src="images/mycar.gif" border="0" height="23" width="90"></a></td>
-        <td width="71"><a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/xsearchp.asp"><img src="images/sousuo.gif" border="0" height="23" width="60"></a></td>
-        <td width="88"><a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/xpuser.asp?action=myinfo"><img src="images/zhanghu.gif" border="0" height="23" width="80"></a></td>
-        <td width="89"><a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/pay.asp"><img src="images/zhifu.gif" border="0" height="23" width="80"></a></td>
-        <td width="95"><a href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/xpa.asp"><img src="images/about.gif" border="0" height="23" width="75"></a></td>
+        <td width="72"><a href="#"><img src="images/shouye.gif" border="0" height="23" width="50"></a></td>
+        <td width="104"><a href="#"><img src="images/mycar.gif" border="0" height="23" width="90"></a></td>
+        <td width="71"><a href="#"><img src="images/sousuo.gif" border="0" height="23" width="60"></a></td>
+        <td width="88"><a href="#"><img src="images/zhanghu.gif" border="0" height="23" width="80"></a></td>
+        <td width="89"><a href="#"><img src="images/zhifu.gif" border="0" height="23" width="80"></a></td>
+        <td width="95"><a href="#"><img src="images/about.gif" border="0" height="23" width="75"></a></td>
         <td width="111">      <span style="LINE-HEIGHT: 200%"><font color="#ffffff"><a title="點擊以繁體中文方式浏覽" href="javascript:StranBody()" name="StranLink" id="StranLink" style="color:red">繁體中文</a></font></span><script language="javascript" src="images/jfzh.js"></script></td>
       </tr>
     </tbody></table></td>
@@ -43,10 +96,38 @@ function url()
         <td height="23" width="15"><img src="images/icon_speaker01.gif" height="13" width="14"></td>
         <td width="365"><marquee scrollamount="3" width="100%">欢迎访问shopxp网上购物系统,商城程序购买咨询客服QQ:97003001电话：010-58604522</marquee></td>
       </tr>
+    
     </tbody></table></td>
-    <td width="40%"><script language="javascript" src="images/shopxp_seach.asp"></script></td>
+    
+	
   </tr>
 </tbody></table>
+
+
+<form action="" name="categories" method="post">
+	<table>
+		<tr>
+		<td width="40%">
+	       <select name="category1" onChange="changeCategory()">
+	        <option value="0" selected>查询所有一级目录</option>
+	        <%
+	        	for(int i=0;i<topCategories.size();i++){
+	        		Category c=topCategories.get(i);
+	        %>
+	        <option value="<%=c.getId() %>" ><%=c.getName() %></option>
+	        <%
+	        	}
+	        %>
+	        
+	      </select>
+	      <select name="category2">
+	        <option value="0" selected>查询所有二级目录</option>
+      	  </select>
+      </td>
+      </tr>
+      </table>
+</form>
+
 <table align="center" border="0" cellpadding="0" cellspacing="0" width="990">
   <tbody><tr>
     <td height="5" width="5"><img src="images/new_top_li01.gif" height="5" width="5"></td>
@@ -108,29 +189,13 @@ function url()
   </tr>
 </tbody></table>
 
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="184">
-  <tbody><tr>
-    <td><a href="http://www.china1122.com/" target="_blank"><img src="images/tt_login.gif" border="0" width="184"></a></td>
-  </tr>
-  <tr>
-    <td><table align="center" background="images/bt.gif" border="0" cellpadding="0" cellspacing="0" width="184">
-      <tbody><tr>
-        <td align="center" background="images/bt.gif">
-		<iframe src="images/user.htm" name="ifraComment" marginheight="0" marginwidth="0" style="border-style: none #ffffff solid" frameborder="0" scrolling="no" width="180"> </iframe>
-         </td>
-      </tr>
-    </tbody></table></td>
-  </tr>
-  <tr>
-    <td><img src="images/tt_login_bottom.gif" height="6" width="184"></td>
-  </tr>
-</tbody></table><table align="center" border="0" cellpadding="0" cellspacing="0" height="5" width="10%">
+     <table align="center" border="0" cellpadding="0" cellspacing="0" height="5" width="10%">
   <tbody><tr>
     <td></td>
   </tr>
 </tbody></table>
 
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="184">
+     <table align="center" border="0" cellpadding="0" cellspacing="0" width="184">
   <tbody>
     <tr>
       <td height="4" valign="top" width="4"><img src="images/new_line_004.gif" height="4" width="4"></td>
@@ -149,7 +214,7 @@ function url()
     <tr>
       <td style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 3px; PADDING-TOP: 0px" align="center" valign="top"><table align="center" border="0" cellpadding="0" cellspacing="0" height="248" width="180">
         <tbody><tr>
-          <td height="34"><div align="center"><img src="images/benqi.gif" usemap="#benqituijian" border="0" height="36" width="180"></div></td>
+          <td height="34">&nbsp;</td>
         </tr>
         <tr>
           <td height="5"></td>
@@ -203,12 +268,7 @@ function url()
 
 <map name="beiqiruijian" id="beiqiruijian">
 <area shape="rect" coords="127,5,176,28" href="#">
-</map>
-<map name="benqituijian" id="benqituijian">
-<area shape="rect" coords="120,5,174,27" href="file:///E:/TDDOWNLOAD/%E7%BD%91%E4%B8%8A%E5%95%86%E5%9F%8E/src/%E6%96%B0shopping/resource/shopxphtml_v12.01/shopxphtml/ShopxpHtml/xpnewp.asp?action_key_order=hot">
-</map> 
-
-</td>
+</map></td>
     <td valign="top" width="780"><table border="0" cellpadding="0" cellspacing="0" height="5" width="91%">
   <tbody><tr>
     <td height="5"></td>

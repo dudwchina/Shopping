@@ -149,9 +149,9 @@ public class User {
 	}
 	
 	
-	public static boolean userExist(String id) throws SQLException {
+	public static boolean userExist(String username) throws SQLException {
 		Connection conn=DB.getConn();
-		String sql="select * from user where username='"+id+"'";
+		String sql="select * from user where username='"+username+"'";
 		ResultSet rs=DB.executeQuery(conn, sql);
 		try {
 			if(rs.next())
